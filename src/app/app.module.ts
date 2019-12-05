@@ -5,7 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { ListaPedidoPage } from '../pages/lista-pedido/lista-pedido';
 import { PedidoCadPage } from '../pages/pedido-cad/pedido-cad';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -21,7 +21,7 @@ import { ClientesProvider } from '../providers/clientes/clientes';
     MyApp,
     LoginPage,
     HomePage,
-    ListPage,
+    ListaPedidoPage,
     PedidoCadPage,
     ClienteCadPage
   ],
@@ -35,7 +35,7 @@ import { ClientesProvider } from '../providers/clientes/clientes';
     MyApp,
     LoginPage,
     HomePage,
-    ListPage,
+    ListaPedidoPage,
     PedidoCadPage,
     ClienteCadPage
   ],

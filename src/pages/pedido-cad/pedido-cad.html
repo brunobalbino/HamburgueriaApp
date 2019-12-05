@@ -11,7 +11,10 @@
 </ion-header>
 
 <ion-content padding>
-   <label>Sacola</label>  
+   <p style='text-align:center'>Sacola</p>  
+
+   <p>Cliente:</p>
+   <p>Endereço:</p>
 
    <ion-item>
     <ion-label stacked>Pesquisar Produtos</ion-label>
@@ -23,12 +26,13 @@
   <br>
 
   <div *ngIf="arrayProd.length > 0">
-    <p>itens Pedido</p>
+    <p>Itens Pedido</p>
 
     <ion-card *ngFor="let p of arrayProd" style="margin-top: 0!important;">
       <ion-card-content>
-        <p text-justify>Item: {{p.item}} | {{p.descricao}} </p>
-        <h2 text-justify><strong>{{p.produto}}</strong></h2>
+        <p text-justify>Item: {{p.item}}</p> 
+        <p text-justify>Preço: {{p.preco}}</p>
+        <h2 text-justify><strong>{{p.descricao}}</strong></h2>
         <p>Quantidade: {{p.qtde}} </p>
 
         <ion-row >
@@ -54,7 +58,7 @@
       </ion-card-content>
     </ion-card>
 
-
+    <h3>Total: {{total}} </h3>
 
 
    <div padding >

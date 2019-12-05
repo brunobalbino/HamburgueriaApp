@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
       <ion-icon [name]="item.icon" item-start></ion-icon>
@@ -20,4 +20,18 @@
   <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
   </div>
-</ion-content>
+</ion-content> -->
+
+<ion-searchbar ( ionInput)="getItems($event)"></ion-searchbar>
+<ion-list>
+  <ion-item *ngFor="let item of items">
+      <ion-card>
+          <ion-card-header>
+            Header
+          </ion-card-header>
+          <ion-card-content>
+            The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.
+          </ion-card-content>
+        </ion-card>     
+  </ion-item>
+</ion-list>

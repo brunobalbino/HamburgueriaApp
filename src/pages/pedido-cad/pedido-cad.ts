@@ -19,7 +19,8 @@ export class PedidoCadPage {
 
   arrayProd: any;
   EdtProduto: string;
-  produto = { item: 0, id: '', descricao: '', qtde: 0 }
+  produto = { item: 0, id: '', descricao: '', qtde: 0, preco: 0 }
+  total: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -30,12 +31,15 @@ export class PedidoCadPage {
 
   adicionarQtde(index) {
     this.arrayProd[index - 1].qtde = this.arrayProd[index - 1].qtde + 1;
+    this.atualizaTotal();
   }  
 
   removerQtde(index) {
     if (this.arrayProd[index - 1].qtde > 1) {
       this.arrayProd[index - 1].qtde = this.arrayProd[index - 1].qtde - 1;
-    }
+    }    
+
+    this.atualizaTotal();
   }    
 
   edtQtde(produto: any) {
@@ -54,6 +58,7 @@ export class PedidoCadPage {
         try {
           if (parseFloat(data) >= 0) {
             produto.qtde = parseFloat(data);
+            this.atualizaTotal();
           } else {
             if (parseFloat(data) < 0) {
               swal("Ooops!", "Não é permitido quantidade negativa", "warning");
@@ -75,7 +80,8 @@ export class PedidoCadPage {
       dangerMode: true,
     }).then(okay => {
       if (okay) {
-        this.arrayProd.splice(index - 1, 1);       
+        this.arrayProd.splice(index - 1, 1);   
+        this.atualizaTotal();    
       }
     }).catch(() => {
       swal("Erro!", "Problemas ao excluir o produto", "error");
@@ -84,7 +90,17 @@ export class PedidoCadPage {
 
   carregarDadosTela() {
     this.arrayProd = [];
+    this.total = 0;
   }  
+
+  atualizaTotal(){
+    this.total = 0;
+    for (let index = 0; index < this.arrayProd.length; index++) {
+      this.total = this.total + (this.arrayProd[index].preco * this.arrayProd[index].qtde);
+    }
+
+    this.total = this.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });    
+  }
 
   abrirComboProdutos() {
     if ((!this.EdtProduto) || (this.EdtProduto.trim() == '')) {
@@ -123,14 +139,17 @@ export class PedidoCadPage {
 
           if (x < 0) {
 
-            this.produto = { item: 0, id: '', descricao: '', qtde: 0,  }
+            this.produto = { item: 0, id: '', descricao: '', qtde: 0, preco: 0 }
             this.produto.item = this.arrayProd.length + 1;
             this.produto.id = data;
             this.produto.descricao = ListaProdutos[i].descricao;
             this.produto.qtde = 1;
+            this.produto.preco = ListaProdutos[i].preco;
         
             this.arrayProd.push(this.produto);
             this.EdtProduto = '';
+
+            this.atualizaTotal();
           } else {
             swal("Oops!", '"' + ListaProdutos[i].descricao + '" já foi adicionado anteriormente', "error");
           }
