@@ -1,0 +1,92 @@
+<!--
+  Generated template for the ClienteCadPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Cadastro Usuário</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="form">
+
+    <h3>Dados Login:</h3>  
+
+    <ion-item>
+      <ion-label stacked>E-mail</ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Senha</ion-label>
+      <ion-input type="password" formControlName="senha"></ion-input>
+    </ion-item>
+
+    <h3>Dados Pessoais:</h3>  
+
+    <ion-item>
+      <ion-label stacked>Nome</ion-label>
+      <ion-input type="text" formControlName="nome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>CPF</ion-label>
+      <ion-input type="text" formControlName="cpf"></ion-input>
+    </ion-item>
+
+    <h3>Dados Endereço:</h3> 
+
+    <ion-item>
+      <ion-label stacked>Endereço</ion-label>
+      <ion-input type="text" formControlName="endereco"></ion-input>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label stacked>Número</ion-label>
+      <ion-input type="text" formControlName="numero"></ion-input>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label stacked>CEP</ion-label>
+      <ion-input type="text" formControlName="cep"></ion-input>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label stacked>Bairro</ion-label>
+      <ion-input type="text" formControlName="bairro"></ion-input>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label stacked>Cidade</ion-label>
+      <ion-input type="text" formControlName="cidade"></ion-input>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label stacked>UF</ion-label>
+      <ion-input type="text" formControlName="uf"></ion-input>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label stacked>Complemento</ion-label>
+      <ion-input type="text" formControlName="complemento"></ion-input>
+    </ion-item>    
+
+
+    <div padding>
+      <button color="edit" ion-button block round icon-start (click)="salvar()">
+        <ion-icon name="ios-checkmark-circle"></ion-icon>
+        Salvar
+      </button>
+    </div>   
+
+    <div padding>
+      <button color="edit" ion-button block round icon-start (click)="cancelar()">
+        <ion-icon name="ios-checkmark-circle"></ion-icon>
+        Cancelar
+      </button>
+    </div>    
+  </form>
+</ion-content>

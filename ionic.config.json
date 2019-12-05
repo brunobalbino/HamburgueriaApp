@@ -1,0 +1,7 @@
+{
+  "name": "HamburgueriaApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

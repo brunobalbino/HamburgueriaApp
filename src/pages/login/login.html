@@ -1,0 +1,36 @@
+<ion-content>
+  <!-- <div class="header-img">
+      <img src="assets/imgs/img-login.jpg"/>
+  </div>    -->
+
+
+<ion-content padding>
+  <form [formGroup]="form">
+
+    <ion-item>
+      <ion-label stacked>E-mail</ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Senha</ion-label>
+      <ion-input type="password" formControlName="senha"></ion-input>
+    </ion-item>
+
+    <div padding>
+      <button color="edit" ion-button block round icon-start (click)="login()">
+        <ion-icon name="ios-checkmark-circle"></ion-icon>
+        Login
+      </button>
+    </div>
+    <br>
+   
+
+    <div padding>
+      <button color="edit" ion-button block round icon-start (click)="cadastrar()">
+        <ion-icon name="ios-checkmark-circle"></ion-icon>
+        Cadastre-se
+      </button>
+    </div>    
+  </form>
+</ion-content>
