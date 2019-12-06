@@ -23,6 +23,7 @@ export class LoginPage {
 
   form: FormGroup;
   f: any;
+  cliente = { id: 0, nome: '' };
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -47,6 +48,7 @@ export class LoginPage {
 
       this.f.email = '';
       this.f.senha = '';
+      this.cliente = { id: 0, nome: '' };
   }
 
 login() {
@@ -74,10 +76,15 @@ login() {
     });
     loading.present();
     
-    this.userProvider.login(this.form.value).then(() => {
+    this.userProvider.login(this.form.value).then(res => {
       loading.dismiss();                        
+      this.cliente.id = res.json().id;
+      this.cliente.nome = res.json().nome;
 
-      this.navCtrl.push(HomePage); 
+      this.userProvider.setUserData(this.cliente);
+
+      this.navCtrl.setRoot(HomePage);
+     // this.navCtrl.push(HomePage); 
     }).catch(e => {
       loading.dismiss();   
       swal("Erro!", "Login inválido! " + e, "error");

@@ -15,6 +15,7 @@ import { ProdutosProvider } from '../providers/produtos/produtos';
 import { UserProvider } from '../providers/user/user';
 import { ClienteCadPage } from '../pages/cliente-cad/cliente-cad';
 import { ClientesProvider } from '../providers/clientes/clientes';
+import { PedidosProvider } from '../providers/pedidos/pedidos';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ClientesProvider } from '../providers/clientes/clientes';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ProdutosProvider,
     UserProvider,
-    ClientesProvider
+    ClientesProvider,
+    PedidosProvider
   ]
 })
 export class AppModule {}

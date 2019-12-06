@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import swal from 'sweetalert';
 import { ProdutosProvider } from '../../providers/produtos/produtos';
+import { PedidosProvider } from '../../providers/pedidos/pedidos';
+import { UserProvider } from '../../providers/user/user';
 
 /**
  * Generated class for the PedidoCadPage page.
@@ -17,14 +19,20 @@ import { ProdutosProvider } from '../../providers/produtos/produtos';
 })
 export class PedidoCadPage {
 
+  loading = this.loadingCtrl;
   arrayProd: any;
   EdtProduto: string;
-  produto = { item: 0, id: '', descricao: '', qtde: 0, preco: 0 }
+  produto = { item: 0, id: '', descricao: '', qtde: 0, precounitario: 0, valortotal: 0 }
   total: any;
+  totalTela: any;
+  pedido = { id: 0, status: 0, idcliente: 0, nomeCliente: '', valortotal: 0 };
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               private produtoProvider: ProdutosProvider,
+              private pedidoProvider: PedidosProvider,
+              private userProvider: UserProvider,
+              private loadingCtrl: LoadingController,
               private atrCtrl: AlertController) {
     this.carregarDadosTela();
   }
@@ -91,15 +99,23 @@ export class PedidoCadPage {
   carregarDadosTela() {
     this.arrayProd = [];
     this.total = 0;
+    this.pedido = { id: 0, status: 0, idcliente: 0, nomeCliente: '', valortotal: 0 };
+    this.pedido.idcliente = this.userProvider.user.id;
+    this.pedido.nomeCliente = this.userProvider.user.nome;
+    console.log(this.pedido.idcliente)
   }  
 
   atualizaTotal(){
-    this.total = 0;
+    this.total = 0;  
+    this.totalTela = 0;  
     for (let index = 0; index < this.arrayProd.length; index++) {
-      this.total = this.total + (this.arrayProd[index].preco * this.arrayProd[index].qtde);
+      this.arrayProd[index].valortotal = (this.arrayProd[index].precounitario * this.arrayProd[index].qtde);
+      this.total = this.total + this.arrayProd[index].valortotal;      
     }
 
-    this.total = this.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });    
+    this.totalTela = this.total;
+    this.totalTela = this.totalTela.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });    
+    
   }
 
   abrirComboProdutos() {
@@ -139,12 +155,12 @@ export class PedidoCadPage {
 
           if (x < 0) {
 
-            this.produto = { item: 0, id: '', descricao: '', qtde: 0, preco: 0 }
+            this.produto = { item: 0, id: '', descricao: '', qtde: 0, precounitario: 0, valortotal: 0 }
             this.produto.item = this.arrayProd.length + 1;
             this.produto.id = data;
             this.produto.descricao = ListaProdutos[i].descricao;
             this.produto.qtde = 1;
-            this.produto.preco = ListaProdutos[i].preco;
+            this.produto.precounitario = ListaProdutos[i].preco;            
         
             this.arrayProd.push(this.produto);
             this.EdtProduto = '';
@@ -160,39 +176,38 @@ export class PedidoCadPage {
     })
   }
 
-  // salvar() {
-  //   if (this.modeloOrcamento.nome.trim() == '') {
-  //     return swal("Oops!", 'Informe um nome para o modelo', "info");
-  //   }
+  salvar() {
+    if (this.arrayProd == []) {
+      return swal("Oops!", 'Informe pelo menos 1 item', "info");
+    }
 
-  //   let json = { descricao: '', finalizado: false, produtos: this.arrayProd }
-  //   json.descricao = this.modeloOrcamento.nome;
+    let json = { idcliente: this.pedido.idcliente, valortotal: this.total, qtdeitens: this.arrayProd.length, itens: this.arrayProd }
+   
+    let loader = this.loading.create({
+      content: 'Salvando pedido...',
+      spinner: 'dots'
+    });
 
-  //   let loader = this.loading.create({
-  //     content: 'Salvando orçamento...',
-  //     spinner: 'dots'
-  //   });
+    return new Promise((resolve) => {
+      loader.present();
 
-  //   return new Promise((resolve) => {
-  //     loader.present();
+      if (this.pedido.id > 0) {
+        this.pedidoProvider.Excluir(this.pedido.id).catch(e => {
+          swal("Erro!", "Problemas ao atualizar o pedido", "error");
+          loader.dismiss();
+          return;
+        })
+      }
 
-  //     if (this.modeloOrcamento.codigo > 0) {
-  //       this.modeloProvider.Excluir(this.modeloOrcamento.codigo).catch(e => {
-  //         swal("Erro!", "Problemas ao atualizar o orçamento", "error");
-  //         loader.dismiss();
-  //         return;
-  //       })
-  //     }
-
-  //     this.modeloProvider.Incluir(json).then(() => {
-  //       resolve(true);
-  //     })
-  //   }).then(() => {
-  //     loader.dismiss();
-  //     swal("Sucesso!", "Orçamento salvo com sucesso.", "success");
-  //     this.navCtrl.pop();
-  //   })
-  // }
+      this.pedidoProvider.Incluir(json).then(() => {        
+        resolve(true);
+      })
+    }).then(() => {
+      loader.dismiss();
+      swal("Sucesso!", "Pedido salvo com sucesso.", "success");
+      this.navCtrl.pop();
+    })
+  }
 
 
 }

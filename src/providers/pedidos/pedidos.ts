@@ -3,17 +3,16 @@ import { Injectable } from '@angular/core';
 import { _urlBase } from '../../ConnectionService/ConServico';
 
 /*
-  Generated class for the UserProvider provider.
+  Generated class for the PedidosProvider provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
 @Injectable()
-export class UserProvider {
+export class PedidosProvider {
 
   headersBase = new Headers();
-  url = _urlBase + 'Login/';
-  user: any;
+  url = _urlBase + 'Pedidos/';
 
   constructor(public http: Http) {
     this.headersBase.append('Content-Type', 'application/json');
@@ -24,17 +23,15 @@ export class UserProvider {
     this.headersBase.append('Access-Control-Max-Age', '1728000');
   }
 
-
-  login(json) {
-
-
+  Incluir(json) {
     let jsonObj = JSON.stringify(json);
 
     return this.http.post(this.url, jsonObj, { headers: this.headersBase }).toPromise();
   }
-  
-setUserData(data) {
-    this.user = data;
-}  
+
+  Excluir(id) {
+    return this.http.delete(this.url + id, { headers: this.headersBase }).toPromise();
+  }
+
 
 }
